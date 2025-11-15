@@ -1,12 +1,22 @@
-spec:
-  name: r-q-backend
-  region: fra
-  services:
-    - name: api
-      environment_slug: python
-      instance_count: 1
-      instance_size_slug: basic-xxs
-      build_command: pip install -r requirements.txt
-      run_command: uvicorn app.main:app --host 0.0.0.0 --port $PORT
-      routes:
-        - path: /
+name: r-q-backend
+region: fra
+services:
+  - name: api
+    environment_slug: python
+    instance_count: 1
+    instance_size_slug: basic-xxs
+    github:
+      repo: davidste/r-q-backend
+      branch: main
+      deploy_on_push: true
+    build_command: pip install -r requirements.txt
+    run_command: uvicorn app.main:app --host 0.0.0.0 --port $PORT
+    routes:
+      - path: /
+domains:
+  - domain: api.r-q.co.il
+    type: PRIMARY
+    zone: r-q.co.il
+  - domain: staging-api.r-q.co.il
+    type: PRIMARY
+    zone: r-q.co.il
